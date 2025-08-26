@@ -1,12 +1,13 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState, Suspense, lazy } from "react";
 import UploadArea from "./components/UploadArea";
-import PreviewPanel from "./components/PreviewPanel";
 import PromptInput from "./components/PromptInput";
 import StyleDropdown from "./components/StyleSelect";
-import SummaryPanel from "./components/SummaryPanel";
 import GenerateButton from "./components/GenerateButton";
-import HistoryPanel from "./components/HistoryPanel";
 import type { GenerationResult, StyleOption } from "./types";
+
+const PreviewPanel = lazy(() => import("./components/PreviewPanel"));
+const SummaryPanel = lazy(() => import("./components/SummaryPanel"));
+const HistoryPanel = lazy(() => import("./components/HistoryPanel"));
 
 
 function App() {
@@ -22,7 +23,7 @@ function App() {
     }
   }, []);
 
-  const handleResult = (result: GenerationResult, addToHistory = true) => {
+  const handleResult = useCallback((result: GenerationResult, addToHistory = true) => {
     if (addToHistory) {
       const newHistory = [result, ...history].slice(0, 5);
       setHistory(newHistory);
@@ -31,24 +32,30 @@ function App() {
     setImageDataUrl(result.imageUrl);
     setPrompt(result.prompt);
     setStyle(result.style);
-  };
+  }, []);
 
   return (
     <main id="main" className="min-h-screen bg-gray-50 text-gray-900">
       <div className="mx-auto p-4 space-y-6 max-w-3xl ">
         <h1 className="text-3xl font-bold mb-4">AI Studio</h1>
         <UploadArea onImageChange={setImageDataUrl} />
-        <PreviewPanel imageDataUrl={imageDataUrl} />
+        <Suspense fallback={<div className="rounded-xl border p-4 text-sm">Loading preview…</div>}>
+          <PreviewPanel imageDataUrl={imageDataUrl} />
+        </Suspense>
         <PromptInput value={prompt} onChange={setPrompt} />
         <StyleDropdown value={style} onChange={setStyle} />
-        <SummaryPanel imageDataUrl={imageDataUrl} prompt={prompt} style={style} />
+        <Suspense fallback={<div className="rounded-xl border p-4 text-sm">Loading summary…</div>}>
+          <SummaryPanel imageDataUrl={imageDataUrl} prompt={prompt} style={style} />
+        </Suspense>
         <GenerateButton
           imageDataUrl={imageDataUrl}
           prompt={prompt}
           style={style}
           onSuccess={handleResult}
         />
-        <HistoryPanel history={history} onSelect={(item) => handleResult(item, false)} />
+        <Suspense fallback={<div className="rounded-xl border p-4 text-sm">Loading history…</div>}>
+          <HistoryPanel history={history} onSelect={(item) => handleResult(item, false)} />
+        </Suspense>
       </div>
     </main>
   );

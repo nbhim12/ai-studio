@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { mockGenerateAPI } from "../utils/api";
 import type { GenerationResult, StyleOption } from "../types";
 
@@ -20,7 +20,7 @@ export default function GenerateButton({
   const [error, setError] = useState<string | null>(null);
   const [controller, setController] = useState<AbortController | null>(null);
 
-  async function handleGenerate() {
+  const handleGenerate = useCallback(async () => {
     if (!imageDataUrl || !prompt || !style) return;
     setLoading(true);
     setError(null);
@@ -55,7 +55,7 @@ export default function GenerateButton({
 
     setLoading(false);
     setController(null);
-  }
+  }, [imageDataUrl, prompt, style])
 
   function handleAbort() {
     controller?.abort();

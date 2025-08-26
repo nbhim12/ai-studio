@@ -16,9 +16,10 @@ export default function HistoryPanel({ history, onSelect }: HistoryPanelProps) {
   return (
     <aside className="mt-4">
       <h2 className="text-lg font-semibold mb-2">History</h2>
-      <ul className="space-y-2">
+      <ul role="list" className="space-y-2">
         {history.map((item) => (
           <li
+            role="listitem"
             key={item.id}
             className="flex items-center gap-3 cursor-pointer p-2 border rounded hover:bg-gray-100"
             onClick={() => onSelect(item)}
