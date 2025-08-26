@@ -19,7 +19,7 @@ export default function StyleDropdown({ value, onChange }: StyleDropdownProps) {
         aria-label="Select visual style"
         value={value}
         onChange={(e) => onChange(e.target.value as StyleOption)}
-        className="w-full p-2 border rounded-lg shadow-sm text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
+        className="w-full p-2 border rounded-lg shadow-sm text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
       >
         {styles.map((style) => (
           <option key={style} value={style}>

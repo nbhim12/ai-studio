@@ -11,7 +11,7 @@ export default function SummaryPanel({ imageDataUrl, prompt, style }: SummaryPan
       className="border rounded-lg p-4 bg-gray-50 shadow-sm"
     >
       <h2 id="summary-heading" className="text-lg font-semibold mb-2">
-        Live Summary
+        Summary
       </h2>
 
       <div className="space-y-3">
