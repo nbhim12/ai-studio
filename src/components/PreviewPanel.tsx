@@ -1,7 +1,20 @@
-export default function PreviewPanel() {
+interface PreviewPanelProps {
+  imageDataUrl: string | null;
+}
+
+export default function PreviewPanel({ imageDataUrl }: PreviewPanelProps) {
+  if (!imageDataUrl) {
+    return <div className="text-sm text-gray-500">No image uploaded yet.</div>;
+  }
+
   return (
-    <div className="border rounded-lg p-4 bg-gray-50">
-      <p className="text-gray-600">Preview will appear here</p>
+    <div className="space-y-2">
+      <h2 className="text-lg font-semibold">Image Preview</h2>
+      <img
+        src={imageDataUrl}
+        alt="Uploaded preview"
+        className="w-[200px] rounded shadow"
+      />
     </div>
   );
 }

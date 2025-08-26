@@ -1,15 +1,25 @@
-export default function PromptInput() {
+interface PromptInputProps {
+  value: string;
+  onChange: (val: string) => void;
+}
+
+export default function PromptInput({ value, onChange }: PromptInputProps) {
   return (
-    <div className="flex flex-col gap-2">
-      <label htmlFor="prompt" className="font-medium text-gray-700">
+    <div className="space-y-2">
+      <label htmlFor="prompt" className="block font-medium">
         Prompt
       </label>
-      <input
+      <textarea
         id="prompt"
-        type="text"
-        className="border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        placeholder="Enter your prompt..."
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        rows={3}
+        placeholder="Enter a creative description..."
+        className="w-full p-2 border rounded-lg shadow-sm text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
+      <p className="text-xs text-gray-500">
+        Example: “A futuristic makeover in cyberpunk style.”
+      </p>
     </div>
   );
 }
