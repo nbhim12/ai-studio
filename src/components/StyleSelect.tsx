@@ -1,17 +1,34 @@
-export default function StyleSelect() {
+export type StyleOption = 'Editorial' | 'Streetwear' | 'Vintage';
+
+interface StyleDropdownProps {
+  value: StyleOption;
+  onChange: (val: StyleOption) => void;
+}
+
+export default function StyleDropdown({ value, onChange }: StyleDropdownProps) {
+  const styles: StyleOption[] = ['Editorial', 'Streetwear', 'Vintage'];
+
   return (
-    <div className="flex flex-col gap-2">
-      <label htmlFor="style" className="font-medium text-gray-700">
+    <div className="space-y-2">
+      <label htmlFor="style" className="block font-medium">
         Style
       </label>
+
       <select
         id="style"
-        className="border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        aria-label="Select visual style"
+        value={value}
+        onChange={(e) => onChange(e.target.value as StyleOption)}
+        className="w-full p-2 border rounded-lg shadow-sm text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
       >
-        <option value="editorial">Editorial</option>
-        <option value="streetwear">Streetwear</option>
-        <option value="vintage">Vintage</option>
+        {styles.map((style) => (
+          <option key={style} value={style}>
+            {style}
+          </option>
+        ))}
       </select>
+
+      <p className="text-xs text-gray-500">Try: Editorial, Streetwear, or Vintage.</p>
     </div>
   );
 }
