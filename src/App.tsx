@@ -32,7 +32,7 @@ function App() {
     setImageDataUrl(result.imageUrl);
     setPrompt(result.prompt);
     setStyle(result.style);
-  }, []);
+  }, [history]);
 
   return (
     <main id="main" className="min-h-screen bg-gray-50 text-gray-900">

@@ -8,6 +8,6 @@ export function tinyPngBuffer() {
 // Ensure the 20% failure never triggers during E2E
 export async function forceSuccess(page: import("@playwright/test").Page) {
   await page.addInitScript(() => {
-    (Math.random as any) = () => 0.9; // >= 0.2 ⇒ success path
+    (Math.random as unknown) = () => 0.9; // >= 0.2 ⇒ success path
   });
 }
