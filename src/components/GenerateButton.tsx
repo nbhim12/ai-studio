@@ -39,7 +39,7 @@ export default function GenerateButton({
         );
         onSuccess(result);
         success = true;
-      } catch (err: any) {
+      } catch (err: unknown) {
         if (abortCtrl.signal.aborted) {
           setError("Aborted");
           break;
@@ -48,14 +48,18 @@ export default function GenerateButton({
         if (attempt < 3) {
           await new Promise((res) => setTimeout(res, 500 * 2 ** (attempt - 1)));
         } else {
-          setError(err.message || "Failed to generate");
+            if (err instanceof Error) {
+              setError(err.message || "Failed to generate");
+            } else {
+              console.error("Unexpected error", err);
+            }
         }
       }
     }
 
     setLoading(false);
     setController(null);
-  }, [imageDataUrl, prompt, style])
+  }, [imageDataUrl, prompt, style, onSuccess])
 
   function handleAbort() {
     controller?.abort();

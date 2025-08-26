@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import GenerateButton from './GenerateButton';
 import { test, expect, vi } from "vitest";
+import type { StyleOption } from '../types';
 
 
 test('disabled when required inputs are missing', () => {
@@ -9,7 +10,7 @@ test('disabled when required inputs are missing', () => {
     <GenerateButton
       imageDataUrl={null}
       prompt=""
-      style={'' as any}
+      style={'' as StyleOption}
       onSuccess={() => {}}
     />
   );

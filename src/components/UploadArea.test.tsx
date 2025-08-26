@@ -10,14 +10,17 @@ function makeFile({ type = 'image/png', size = 1024 } = {}) {
 // Stub FileReader to immediately yield a data URL
 class FRStub {
   result: string | ArrayBuffer | null = null;
-  onload: ((this: FileReader, ev: ProgressEvent<FileReader>) => any) | null = null;
-  onerror: ((this: FileReader, ev: ProgressEvent<FileReader>) => any) | null = null;
+  onload: ((this: FileReader, ev: ProgressEvent<FileReader>) => void) | null = null;
+  onerror: ((this: FileReader, ev: ProgressEvent<FileReader>) => void) | null = null;
 
-  readAsDataURL(_file: File) {
+  readAsDataURL(file: File): void {
+    void file;
+
     // simulate async read
     setTimeout(() => {
-      this.result = 'data:image/png;base64,XYZ'; // populate reader.result
-      this.onload?.call(this as any, { target: this } as any); // call with `this` as target
+      this.result = 'data:image/png;base64,XYZ';
+      const evt = { target: this } as unknown as ProgressEvent<FileReader>;
+      this.onload?.call(this as unknown as FileReader, evt);
     }, 0);
   }
 }
