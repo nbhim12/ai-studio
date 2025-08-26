@@ -17,7 +17,7 @@ export default function UploadArea({ onImageChange }: UploadAreaProps) {
     }
 
     if (file.size > 10 * 1024 * 1024) {
-      setError("File must be ≤ 10MB.");
+      setError("File size must be ≤ 10MB.");
       return;
     }
 
@@ -49,7 +49,7 @@ export default function UploadArea({ onImageChange }: UploadAreaProps) {
         file:rounded-full file:border-0 file:text-sm file:font-semibold 
         file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
       />
-      {error && <p className="text-red-600 text-sm">{error}</p>}
+      {error && <p role="alert" aria-live="polite" className="text-red-600 text-sm">{error}</p>}
     </div>
   );
 }

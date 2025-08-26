@@ -18,7 +18,7 @@ export default function SummaryPanel({ imageDataUrl, prompt, style }: SummaryPan
         {imageDataUrl ? (
           <img
             src={imageDataUrl}
-            alt="Uploaded preview"
+            alt="Summary preview"
             className="w-48 h-auto rounded-md border"
           />
         ) : (
