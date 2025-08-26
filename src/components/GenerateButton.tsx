@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import { mockGenerateAPI } from "../utils/api";
 import type { GenerationResult, StyleOption } from "../types";
-
+import { downscale } from "../utils/downscale";
 
 interface GenerateButtonProps {
   imageDataUrl: string | null;
@@ -33,8 +33,9 @@ export default function GenerateButton({
 
     while (attempt < 3 && !success && !abortCtrl.signal.aborted) {
       try {
+        const downscaledUrl = await downscale(imageDataUrl, 1920);
         const result = await mockGenerateAPI(
-          { imageDataUrl, prompt, style },
+          { imageDataUrl: downscaledUrl, prompt, style },
           abortCtrl.signal
         );
         onSuccess(result);
